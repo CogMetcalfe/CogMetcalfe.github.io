@@ -1,0 +1,129 @@
+:root {
+    --primary-color:#444444;
+    --secondary-color:#c6b893;
+	--offwhite:#FAFAFA;
+}
+
+* {
+  font-family: "Verdana", cursive, sans-serif;
+}
+
+html{ 
+	background-image: url("image/seamless.jpg");
+}
+
+body{
+	margin:0px;
+}
+
+#mainDiv{
+	background-color: var(--offwhite);
+	padding:20px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+
+header{
+	background-color: var(--primary-color);
+	width: 100%;
+	height: 30px;
+}
+
+h2 { 
+	width: 345px;
+	color: white;
+	float:left;
+	font-family: "Verdana", cursive, sans-serif;
+	margin:0px;
+	margin-left:5px;
+}
+
+#navDiv{
+	background-color:var(--primary-color);
+	float:right;
+	margin:0px;
+	width: 360px;
+	height:100%;
+	margin-right:5px;
+}
+
+nav{
+	height:100%;
+	width:100%;
+	padding: 0px;
+	display:table;
+	border:0px;
+	margin:0px
+}
+
+nav ul{
+	padding:0px;
+	margin:0px;
+	height:100%;
+}
+
+nav li{
+	width: 120px;
+	height:100%;
+	/*
+	border:10px;
+	border-radius:10px;
+	*/
+	text-align:center;
+	vertical-align:middle;
+	display:table-cell;
+	float:right;
+	color: white;
+	font-size:25px;
+}
+
+nav a{
+	display:block;
+	width:100%;
+	height:100%
+	/*
+	padding-left:10px;
+	padding-right:10px;
+	*/
+}
+
+nav a:link{
+	color:var(--offwhite);
+	text-decoration:none;
+}
+
+nav a:visited{
+	color:var(--offwhite);
+	text-decoration:none;
+}
+nav a:hover{
+	color:black;
+	background-color:var(--offwhite);
+}
+nav a:active{
+	color:black;
+	background-color:var(--offwhite);
+}
+
+#project{
+	
+}
+
+
+
+
+section{
+	margin: 20px 0px;
+	padding: 20px 40px 50px 40px;
+	background-color: #d4c393;
+	margin-top:0px;
+	
+}
+
+h3{
+	color: #5d4f29;
+	
+}
