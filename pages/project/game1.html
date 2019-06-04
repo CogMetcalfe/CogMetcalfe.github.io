@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>Ross Metcalfe's Website</title>
+	<link rel = "stylesheet"
+	   type = "text/css"
+	   href = "../../css/style.css" />
+	</head>
+	
+	<body>
+		<header>
+			<h2 id="header">Project 2: Game 1</h1>
+			<div id="navDiv">
+				<nav>
+					<ul>
+						<li><a href="../contact.html">Contact</a></li>
+						<li><a href="../projects.html">Projects</a></li>
+						<li><a href="../../index.html">Home</a></li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<div id="mainDiv">
+			<section>
+				<p>Poker</p>
+				
+				Players:
+				<ol id="playerList">
+				</ol>
+				
+				
+				<div id="addPlayerDiv">
+					Add New Player:
+					<br>
+					Name: <input id="newPlayerName" type="text" name="name"> 
+					<br>
+					Chips: <input id="startingChips" type="text" name="starting chips">
+					<button id="addPlayer" onclick="addPlayer()">Add New Player</button>
+				</div>
+				<br>
+				<div>
+					<button id="startRound" onclick="startRound()" disabled>Start Round</button>
+					<br>
+					<br>
+					CURRENT PLAYER: <label id="currPlayerLabel"></label>
+					<br>
+					<br>
+					<button id="fold" onclick="playerFold()" disabled>Fold</button>
+					<button id="call" onclick="playerCallCheck()" disabled>Call/Check</button>
+					<button id="raise" onclick="playerRaise()" disabled>Raise</button>
+					<button id="allin" onclick="playerAllIn()" disabled>All In</button>
+				</div>
+				<div visible=false>
+					Who Won?
+				</div>
+				
+				
+			</section>
+		</div>
+		<script src="../../script/game.js"></script>
+	</body>
+</html>
