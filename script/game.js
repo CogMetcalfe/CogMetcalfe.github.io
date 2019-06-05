@@ -88,7 +88,7 @@ function addPlayer(){
 	var name = document.getElementById("newPlayerName").value;
 	var chips = parseInt(document.getElementById("startingChips").value);
 	if(name=="" || name==null || chips==null || isNaN(chips)){
-		console.log("null value");
+		//console.log("null value");
 		return;
 	}
 	document.getElementById("newPlayerName").value="";
@@ -190,31 +190,31 @@ currPlayer = null;
 
 
 function playerFold(){
-	console.log("fold");
+	//console.log("fold");
 	currPlayer.fold();
 	prepareNextPlayerOptions();
 }
 
 function playerCallCheck(){
-	console.log("call check");
+	//console.log("call check");
 	var dif = getMaxBet()-currPlayer.chipsIn;
 	currPlayer.putIn(dif);
 	prepareNextPlayerOptions();
 }
 
 function playerRaise(){
-	console.log("raise");
+	//console.log("raise");
 	var dif = getMaxBet()-currPlayer.chipsIn+parseInt(document.getElementById("raiseAmount").value);
 	//console.log(dif);
 	if(currPlayer.putIn(dif)){
-		console.log("you had the money");
+		//console.log("you had the money");
 		prepareNextPlayerOptions();
 	}
-	console.log("nah bruh");
+	//console.log("nah bruh");
 }
 
 function playerAllIn(){
-	console.log("all in");
+	//console.log("all in");
 	currPlayer.putIn(currPlayer.chips);
 	prepareNextPlayerOptions();
 }
@@ -271,7 +271,7 @@ function prepareNextPlayerOptions(){
 	}
 	currPlayer = getCurrentPlayer();
 	currPlayer.hadTurn = true;
-	console.log(currPlayer.name+"'s turn");
+	//console.log(currPlayer.name+"'s turn");
 	document.getElementById("currPlayerLabel").innerHTML = currPlayer.name;
 	document.getElementById("currDealerLabel").innerHTML = allPlayers[dealerIndex].name;
 	document.getElementById("totalPotLabel").innerHTML = getPot();
@@ -282,8 +282,8 @@ function prepareNextPlayerOptions(){
 		document.getElementById("raise").disabled = true;
 	}else{
 		document.getElementById("call").disabled = false;
-		console.log("max bet: " + getMaxBet());
-		console.log("my max: " + (currPlayer.chips+currPlayer.chipsIn));
+		//console.log("max bet: " + getMaxBet());
+		//console.log("my max: " + (currPlayer.chips+currPlayer.chipsIn));
 		if(getMaxBet()==currPlayer.chips+currPlayer.chipsIn){
 			document.getElementById("raise").disabled = true;
 		}else{
@@ -320,6 +320,13 @@ function evalGame(winnerIndex){
 	for(i=0;i<allPlayers.length;i++){
 		winner.addChips(allPlayers[i].winnerTakes(winnerChips));
 		allPlayers[i].endRound();
+	}
+	for(i=0;i<allPlayers.length;i++){
+		if(allPlayers[i].chips==0){
+			//console.log("ZERO AT " + i);
+			allPlayers.splice(i,1);
+			i--;
+		}
 	}
 	
 	endOfRound();
