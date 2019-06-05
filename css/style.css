@@ -127,3 +127,29 @@ h3{
 	color: #5d4f29;
 	
 }
+
+
+.panel{
+	width:50%;
+	float:left;
+	margin: 10px;
+	padding: 20px;
+	
+	border:black;
+	border-width:1.5px;
+	border-style:solid;
+	border-radius:10px;
+	background-color:var(--secondary-color);
+}
+
+.panelRight{
+	float:right;
+	margin: 10px;
+	padding: 20px;
+	
+	border:black;
+	border-width:1.5px;
+	border-style:solid;
+	border-radius:10px;
+	background-color:var(--secondary-color);
+}

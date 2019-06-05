@@ -9,7 +9,7 @@
 	
 	<body>
 		<header>
-			<h2 id="header">Project 2: Game 1</h1>
+			<h2 id="header">Project 2: Poker Chips</h1>
 			<div id="navDiv">
 				<nav>
 					<ul>
@@ -21,37 +21,31 @@
 			</div>
 		</header>
 		<div id="mainDiv">
-			<section>
-				<p>Poker</p>
-				
-				Players:
-				<ol id="playerList">
-				</ol>
-				
-				
-				<div id="addPlayerDiv">
+			<section style="height:500px">
+				<div  class="panel">
+						<button id="startRound" onclick="startRound()" disabled>Start Round</button>
+						<br>
+						<br>
+						DEALER: <label id="currDealerLabel"></label><br><br>
+						CURRENT PLAYER: <label id="currPlayerLabel"></label><br><br>
+						TOTAL POT: <label id="totalPotLabel">0</label>
+						<br>
+						<br>
+						<button id="fold" onclick="playerFold()" disabled>Fold</button>
+						<button id="call" onclick="playerCallCheck()" disabled>Call/Check</button>
+						<button id="raise" onclick="playerRaise()" disabled>Raise</button>
+						<button id="allin" onclick="playerAllIn()" disabled>All In</button>
+				</div>	
+				<div class="panelRight" id="addPlayerDiv">
+					<h3>Players:</h3>
+					<ol id="playerList">
+					</ol>
 					Add New Player:
 					<br>
 					Name: <input id="newPlayerName" type="text" name="name"> 
 					<br>
 					Chips: <input id="startingChips" type="text" name="starting chips">
 					<button id="addPlayer" onclick="addPlayer()">Add New Player</button>
-				</div>
-				<br>
-				<div>
-					<button id="startRound" onclick="startRound()" disabled>Start Round</button>
-					<br>
-					<br>
-					CURRENT PLAYER: <label id="currPlayerLabel"></label>
-					<br>
-					<br>
-					<button id="fold" onclick="playerFold()" disabled>Fold</button>
-					<button id="call" onclick="playerCallCheck()" disabled>Call/Check</button>
-					<button id="raise" onclick="playerRaise()" disabled>Raise</button>
-					<button id="allin" onclick="playerAllIn()" disabled>All In</button>
-				</div>
-				<div visible=false>
-					Who Won?
 				</div>
 				
 				

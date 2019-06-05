@@ -77,7 +77,18 @@ function addPlayer(){
 }
 
 function addPlayerToList(newPlayer){
-	playerList.innerHTML = playerList.innerHTML + "<li id = \"" + newPlayer.name + "\">" + newPlayer.toString() + "</li>"
+	playerStr = newPlayer.toString();
+	playerList.innerHTML = playerList.innerHTML + "<li id = \"" + newPlayer.name + "\">" + playerStr +"</li>"
+}
+
+function addPlayerToListI(index){
+	newPlayer = allPlayers[index];
+	playerStr = newPlayer.toString();
+	if(index == currentPlayerIndex){
+		playerStr = "<b>" + playerStr + "</b>";
+	}
+	playerList.innerHTML = playerList.innerHTML + "<li id = \"" + newPlayer.name + "\">" + playerStr +"</li>"
+
 }
 function emptyList(){
 	playerList.innerHTML = "";
@@ -88,7 +99,8 @@ function refreshList(){
 	console.log("refreshed");
 	playerList.innerHTML="";
 	for(i=0;i<allPlayers.length;i++){
-		addPlayerToList(allPlayers[i]);
+		//addPlayerToList(allPlayers[i]);
+		addPlayerToListI(i);
 	}
 }
 
@@ -161,10 +173,20 @@ function prepareNextPlayerOptions(){
 	currPlayer = getCurrentPlayer();
 	console.log(currPlayer.name);
 	document.getElementById("currPlayerLabel").innerHTML = currPlayer.name;
+	document.getElementById("currDealerLabel").innerHTML = allPlayers[dealerIndex].name;
+	document.getElementById("totalPotLabel").innerHTML = getPot();
 	refreshList();
+	
 }
 var max=0;
 
+function getPot(){
+	var total = 0;
+	for(i=0;i<allPlayers.length;i++){
+		total+=allPlayers[i].chipsIn;
+	}
+	return total;
+}
 function whoWon(){
 	document.getElementById("startRound").disabled = true;
 	document.getElementById("fold").disabled = true;
