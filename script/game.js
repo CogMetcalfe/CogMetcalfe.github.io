@@ -24,6 +24,16 @@ playerClass = {
 		}
 		return false;
 	},
+	putInForce(amount){
+		if(this.chips>=amount){
+			this.chips-=amount;
+			this.chipsIn+=amount;
+			return true;
+		}
+		this.chipsIn+=this.chips;
+		this.chips = 0;
+		return false;
+	},
 	fold(){
 		this.folded=true;
 	},
@@ -31,10 +41,25 @@ playerClass = {
 		this.chips+=this.chipsIn;
 		this.chipsIn=0;
 		this.folded=false;
-		this.hadTurn=true;
+		this.hadTurn=false;
 	},
 	endTurn(){
 		this.hadTurn=false;
+	},
+	winnerTakes(max){
+		if(this.chipsIn<=max){
+			returnChips = this.chipsIn;
+			this.chipsIn = 0;
+			return returnChips;
+		}else{
+			this.chipsIn-=max;
+			return max;
+		}
+	},
+	addChips(additionalChips){
+		if(additionalChips>=0){
+			this.chips+=additionalChips;
+		}
 	},
 	toString(){
 		if(this.folded){
@@ -80,7 +105,7 @@ function addPlayer(){
 
 function addPlayerToList(newPlayer){
 	playerStr = newPlayer.toString();
-	playerList.innerHTML = playerList.innerHTML + "<li id = \"" + newPlayer.name + "\">" + playerStr +"</li>"
+	playerList.innerHTML = playerList.innerHTML + "<li id = \"" + newPlayer.name + "\">" + playerStr +"</li>";
 }
 
 function addPlayerToListI(index){
@@ -89,8 +114,16 @@ function addPlayerToListI(index){
 	if(index == currentPlayerIndex){
 		playerStr = "<b>" + playerStr + "</b>";
 	}
-	playerList.innerHTML = playerList.innerHTML + "<li id = \"" + newPlayer.name + "\">" + playerStr +"</li>"
-
+	playerList.innerHTML = playerList.innerHTML + "<li id = \"" + newPlayer.name + "\">" + playerStr +newPlayer.hadTurn + "</li>";
+}
+function addPlayerToListIWin(index){
+	newPlayer = allPlayers[index];
+	playerStr = newPlayer.toString();
+	if(index == currentPlayerIndex){
+		playerStr = "<b>" + playerStr + "</b>";
+	}
+	playerList.innerHTML = playerList.innerHTML + "<li id = \"" + newPlayer.name + "\">" + "<button onclick=evalGame(" + i + ")>" + playerStr + "</button>"+"</li>";
+	
 }
 function emptyList(){
 	playerList.innerHTML = "";
@@ -106,6 +139,13 @@ function refreshList(){
 	}
 }
 
+function refreshListWin(){
+	playerList.innerHTML="";
+	for(i=0;i<allPlayers.length;i++){
+		addPlayerToListIWin(i);
+	}
+}
+
 function updateTurnLabel(){
 	turnLabel = document.getElementById("turnLabel");
 	if(turn==-1||turn==0){
@@ -117,7 +157,6 @@ function updateTurnLabel(){
 	}else if(turn==3){
 		turnLabel.innerHTML = "5";
 	}
-	console.log("NOW: " + turnLabel.innerHTML);
 }
 
 function startRound(){
@@ -133,8 +172,8 @@ function startRound(){
 	//console.log(dealerIndex);
 	//console.log(smallBlindIndex);
 	//console.log(bigBlindIndex);
-	smallBlind.putIn(2);
-	bigBlind.putIn(4);
+	smallBlind.putInForce(2);
+	bigBlind.putInForce(4);
 	turn=0;
 	prepareNextPlayerOptions();
 	
@@ -182,21 +221,30 @@ function preparePlayesrForNextRound(){
 	}
 }
 
-
 function prepareNextPlayerOptions(){
 	updateTurnLabel();
 	refreshList();
 	if(shouldEndGame()){
 		turn=3;
-		updateTurnLabel();
-		refreshList();
-		whoWon(true);
+		if(remPlayersIn()==1){
+			for(i=0;i<allPlayers.length;i++){
+				if(!allPlayers[i].folded()){
+					evalGame(i);
+					break;
+				}
+			}
+			
+			updateTurnLabel();
+			refreshList();
+		}else{
+			whoWon();
+			updateTurnLabel();
+			refreshListWin();
+		}
 		return;
 	}
 	if(shouldEndTurn()){
-		console.log("NEXT TURN: " + turn);
 		turn++;
-		console.log("NOW: " + turn);
 		currentPlayerIndex=inBounds(dealerIndex+3,allPlayers.length);
 		preparePlayersForNextTurn();
 		updateTurnLabel();
@@ -208,7 +256,7 @@ function prepareNextPlayerOptions(){
 			//console.log(currentPlayerIndex);
 		}
 	}
-	while(getCurrentPlayer().folded){
+	while(getCurrentPlayer().folded || getCurrentPlayer().chips==0){
 		currentPlayerIndex=inBounds(currentPlayerIndex+1,allPlayers.length);
 	}
 	currPlayer = getCurrentPlayer();
@@ -217,6 +265,21 @@ function prepareNextPlayerOptions(){
 	document.getElementById("currPlayerLabel").innerHTML = currPlayer.name;
 	document.getElementById("currDealerLabel").innerHTML = allPlayers[dealerIndex].name;
 	document.getElementById("totalPotLabel").innerHTML = getPot();
+	
+	document.getElementById("allin").disabled = false;
+	if(getMaxBet()>=currPlayer.chips+currPlayer.chipsIn){
+		document.getElementById("call").disabled = true;
+	}else{
+		document.getElementById("call").disabled = false;
+		if(getMaxBet()==currPlayer.chips+currPlayer.chipsIn){
+			document.getElementById("raise").disabled = true;
+		}else{
+			document.getElementById("raise").disabled = false;
+		}
+	}
+	
+	
+	
 	refreshList();
 	
 }
@@ -237,16 +300,22 @@ function whoWon(){
 	document.getElementById("addPlayer").disabled = true;
 }
 
-function evalGame(){
-	winnerName 
+function evalGame(winnerIndex){
+	winner = allPlayers[winnerIndex];
+	winnerChips = winner.chipsIn;
 	for(i=0;i<allPlayers.length;i++){
-		//allPlayers[i].
+		winner.addChips(allPlayers[i].winnerTakes(winnerChips));
+		allPlayers[i].endRound();
 	}
+	
+	
+	turn = -1;
+	refreshList();
+	updateTurnLabel();
+	
+	
 }
 
-function endGame(){
-	turn=-1;
-}
 
 function shouldEndTurn(){
 	//everyones bets are the same && everyone has had a turn
@@ -275,7 +344,7 @@ function shouldEndTurn(){
 }
 
 function shouldEndGame(){
-	if(shouldEndTurn && turn==2){
+	if(shouldEndTurn() && turn==2){
 		return true;
 	}
 	// if only one not folded
