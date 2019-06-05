@@ -114,7 +114,7 @@ function addPlayerToListI(index){
 	if(index == currentPlayerIndex){
 		playerStr = "<b>" + playerStr + "</b>";
 	}
-	playerList.innerHTML = playerList.innerHTML + "<li id = \"" + newPlayer.name + "\">" + playerStr +newPlayer.hadTurn + "</li>";
+	playerList.innerHTML = playerList.innerHTML + "<li id = \"" + newPlayer.name + "\">" + playerStr + "</li>";
 }
 function addPlayerToListIWin(index){
 	newPlayer = allPlayers[index];
