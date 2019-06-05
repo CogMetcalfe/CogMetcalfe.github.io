@@ -215,7 +215,7 @@ function preparePlayersForNextTurn(){
 	}
 }
 
-function preparePlayesrForNextRound(){
+function preparePlayersForNextRound(){
 	for(i=0;i<allPlayers.length;i++){
 		allPlayers[i].endRound();
 	}
@@ -228,7 +228,7 @@ function prepareNextPlayerOptions(){
 		turn=3;
 		if(remPlayersIn()==1){
 			for(i=0;i<allPlayers.length;i++){
-				if(!allPlayers[i].folded()){
+				if(!allPlayers[i].folded){
 					evalGame(i);
 					break;
 				}
@@ -308,12 +308,23 @@ function evalGame(winnerIndex){
 		allPlayers[i].endRound();
 	}
 	
+	endOfRound();
 	
+	
+}
+
+function endOfRound(){
 	turn = -1;
+	preparePlayersForNextRound();
 	refreshList();
 	updateTurnLabel();
-	
-	
+	document.getElementById("startRound").disabled = false;
+	document.getElementById("fold").disabled = true;
+	document.getElementById("call").disabled = true;
+	document.getElementById("raise").disabled = true;
+	document.getElementById("allin").disabled = true;
+	document.getElementById("addPlayer").disabled = false;
+	document.getElementById("totalPotLabel").innerHTML = getPot();
 }
 
 
