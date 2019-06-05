@@ -33,7 +33,7 @@ header{
 }
 
 h2 { 
-	width: 345px;
+	width: auto;
 	color: white;
 	float:left;
 	font-family: "Verdana", cursive, sans-serif;
