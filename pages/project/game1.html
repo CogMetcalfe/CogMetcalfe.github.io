@@ -22,22 +22,24 @@
 		</header>
 		<div id="mainDiv">
 			<section style="height:500px">
-				<div  class="panel">
+				<div class="panel" style="width:500px">
 						<button id="startRound" onclick="startRound()" disabled>Start Round</button>
 						<br>
 						<br>
+						CARDS DOWN: <label id="turnLabel"></label><br><br>
 						DEALER: <label id="currDealerLabel"></label><br><br>
 						CURRENT PLAYER: <label id="currPlayerLabel"></label><br><br>
 						TOTAL POT: <label id="totalPotLabel">0</label>
 						<br>
 						<br>
-						<button id="fold" onclick="playerFold()" disabled>Fold</button>
-						<button id="call" onclick="playerCallCheck()" disabled>Call/Check</button>
-						<button id="raise" onclick="playerRaise()" disabled>Raise</button>
-						<button id="allin" onclick="playerAllIn()" disabled>All In</button>
+						<button class="buttonChoice" id="fold" onclick="playerFold()" disabled>Fold</button>
+						<button class="buttonChoice" id="call" onclick="playerCallCheck()" disabled>Call/Check</button>
+						<button class="buttonChoice" id="raise" onclick="playerRaise()" disabled>Raise</button>
+						<input style="width:50px"id="raiseAmount" type="number" name="raise amount" min="1" value=1>
+						<button class="buttonChoice" id="allin" onclick="playerAllIn()" disabled>All In</button>
 				</div>	
-				<div class="panelRight" id="addPlayerDiv">
-					<h3>Players:</h3>
+				<div class="panel" style="width:250px;" id="addPlayerDiv">
+					<h3 style="margin:0px;">Players:</h3>
 					<ol id="playerList">
 					</ol>
 					Add New Player:

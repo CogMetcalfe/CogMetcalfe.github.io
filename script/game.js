@@ -20,7 +20,9 @@ playerClass = {
 		if(this.chips>=amount){
 			this.chips-=amount;
 			this.chipsIn+=amount;
+			return true;
 		}
+		return false;
 	},
 	fold(){
 		this.folded=true;
@@ -96,7 +98,7 @@ function emptyList(){
 }
 
 function refreshList(){
-	console.log("refreshed");
+	//console.log("refreshed");
 	playerList.innerHTML="";
 	for(i=0;i<allPlayers.length;i++){
 		//addPlayerToList(allPlayers[i]);
@@ -104,6 +106,19 @@ function refreshList(){
 	}
 }
 
+function updateTurnLabel(){
+	turnLabel = document.getElementById("turnLabel");
+	if(turn==-1||turn==0){
+		turnLabel.innerHTML = "0";
+	}else if(turn==1){
+		turnLabel.innerHTML = "3";
+	}else if(turn==2){
+		turnLabel.innerHTML = "4";
+	}else if(turn==3){
+		turnLabel.innerHTML = "5";
+	}
+	console.log("NOW: " + turnLabel.innerHTML);
+}
 
 function startRound(){
 	document.getElementById("startRound").disabled = true;
@@ -120,7 +135,7 @@ function startRound(){
 	//console.log(bigBlindIndex);
 	smallBlind.putIn(2);
 	bigBlind.putIn(4);
-	
+	turn=0;
 	prepareNextPlayerOptions();
 	
 	
@@ -139,39 +154,66 @@ function playerFold(){
 
 function playerCallCheck(){
 	console.log("call check");
+	var dif = getMaxBet()-currPlayer.chipsIn;
+	currPlayer.putIn(dif);
 	prepareNextPlayerOptions();
 }
 
 function playerRaise(){
 	console.log("raise");
-	prepareNextPlayerOptions();
+	var dif = getMaxBet()-currPlayer.chipsIn+parseInt(document.getElementById("raiseAmount").value);
+	//console.log(dif);
+	if(currPlayer.putIn(dif)){
+		console.log("you had the money");
+		prepareNextPlayerOptions();
+	}
+	console.log("nah bruh");
+}
+
+function preparePlayersForNextTurn(){
+	for(i=0;i<allPlayers.length;i++){
+		allPlayers[i].endTurn();
+	}
+}
+
+function preparePlayesrForNextRound(){
+	for(i=0;i<allPlayers.length;i++){
+		allPlayers[i].endRound();
+	}
 }
 
 
-
-
 function prepareNextPlayerOptions(){
+	updateTurnLabel();
 	refreshList();
 	if(shouldEndGame()){
-		whoWon();
+		turn=3;
+		updateTurnLabel();
+		refreshList();
+		whoWon(true);
 		return;
 	}
 	if(shouldEndTurn()){
+		console.log("NEXT TURN: " + turn);
 		turn++;
+		console.log("NOW: " + turn);
 		currentPlayerIndex=inBounds(dealerIndex+3,allPlayers.length);
+		preparePlayersForNextTurn();
+		updateTurnLabel();
 	}else{
 		if(firstTurn){
 			firstTurn=false;
 		}else{
 			currentPlayerIndex=inBounds(currentPlayerIndex+1,allPlayers.length);
-			console.log(currentPlayerIndex);
+			//console.log(currentPlayerIndex);
 		}
 	}
 	while(getCurrentPlayer().folded){
 		currentPlayerIndex=inBounds(currentPlayerIndex+1,allPlayers.length);
 	}
 	currPlayer = getCurrentPlayer();
-	console.log(currPlayer.name);
+	currPlayer.hadTurn = true;
+	console.log(currPlayer.name+"'s turn");
 	document.getElementById("currPlayerLabel").innerHTML = currPlayer.name;
 	document.getElementById("currDealerLabel").innerHTML = allPlayers[dealerIndex].name;
 	document.getElementById("totalPotLabel").innerHTML = getPot();
@@ -208,7 +250,7 @@ function endGame(){
 
 function shouldEndTurn(){
 	//everyones bets are the same && everyone has had a turn
-	max=0
+	var max=0
 	for(i=0;i<allPlayers.length;i++){
 		if(allPlayers[i].folded){
 			continue;
@@ -220,6 +262,7 @@ function shouldEndTurn(){
 			max=allPlayers[i].chipsIn;
 		}
 	}
+	
 	for(i=0;i<allPlayers.length;i++){
 		if(allPlayers[i].folded){
 			continue;
@@ -228,6 +271,7 @@ function shouldEndTurn(){
 			return false;
 		}
 	}
+	return true;
 }
 
 function shouldEndGame(){
@@ -264,6 +308,15 @@ function shouldEndGame(){
 	}
 }
 
+function getMaxBet(){
+	var max=0;
+	for(i=0;i<allPlayers.length;i++){
+		if(allPlayers[i].chipsIn>max){
+			max=allPlayers[i].chipsIn;
+		}
+	}
+	return max;
+}
 
 
 function getCurrentPlayer(){
