@@ -8,6 +8,10 @@
 	</head>
 	
 	<body>
+		<canvas style="z-index:-1; position:absolute" id="mainCanvas" width=500 height=500>
+		<p>Did not work lmao</p>
+		</canvas>
+		<script src="../../script/canvas.js"></script>
 		<header>
 			<h2 id="header">Project 3: Canvas Drawing</h1>
 			<div id="navDiv">
@@ -22,11 +26,9 @@
 		</header>
 		<div id="mainDiv">
 			<section>
-				<canvas id="mainCanvas" width=500 height=500>
-				<p>Did not work lmao</p>
-				</canvas>
+				<h3>Background Canvas</h3>
+				<p>The background is a Canvas, being drawn to. It is kept at an absolute position at the start of the body, with z-depth: -1 so that it is drawn before every other element.</p><p>Enjoy.</p>
 			</section>
 		</div>
-		<script src="../../script/canvas.js"></script>
 	</body>
 </html>

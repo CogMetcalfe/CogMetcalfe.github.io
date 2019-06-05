@@ -36,7 +36,7 @@ Circle = {
 		this.b = b;
 	},
 	update(){
-		this.dy+=0.6;
+		this.dy+=0.2;
 		this.x+=this.dx;
 		this.y+=this.dy;
 		if(this.x<this.radius&&this.dx<0){
@@ -69,15 +69,28 @@ var dx, dy;
 var radius;
 var circles = [];
 function setup(){
-	for(i=0;i<100;i++){
+	/*for(i=0;i<100;i++){
 		newCircle = Object.create(Circle);
 		x=width/2;
 		y=height/2;
 		ang = randomf(0,Math.PI*2);
-		speed = random(20,40);
+		speed = random(10,20);
 		dx=speed*Math.cos(ang);
 		dy=speed*Math.sin(ang);
-		radius = random(30,40);
+		radius = 100+random(0,50)-i;
+		newCircle.setup(x,y,dx,dy,radius);
+		newCircle.setColour(random(0,255),random(0,255),random(0,255));
+		circles.push(newCircle);
+	}*/
+	for(i=0;i<1000;i++){
+		newCircle = Object.create(Circle);
+		x=width/2;
+		y=height/2;
+		ang = randomf(0,Math.PI*2);
+		speed = random(10,20);
+		dx=speed*Math.cos(ang);
+		dy=speed*Math.sin(ang);
+		radius = random(20,100);
 		newCircle.setup(x,y,dx,dy,radius);
 		newCircle.setColour(random(0,255),random(0,255),random(0,255));
 		circles.push(newCircle);
@@ -88,7 +101,7 @@ function draw(){
 	
 	
 	fill(200);
-	background();
+	//background();
 	fill(255,0,0);
 	rect((100+frameCount*10)%(100+width)-100,100,100,100);
 	
