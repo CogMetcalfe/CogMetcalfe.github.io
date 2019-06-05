@@ -142,7 +142,11 @@ function refreshList(){
 function refreshListWin(){
 	playerList.innerHTML="";
 	for(i=0;i<allPlayers.length;i++){
-		addPlayerToListIWin(i);
+		if(allPlayers[i].folded){
+			addPlayerToListI(i);
+		}else{
+			addPlayerToListIWin(i);
+		}
 	}
 }
 
@@ -209,6 +213,12 @@ function playerRaise(){
 	console.log("nah bruh");
 }
 
+function playerAllIn(){
+	console.log("all in");
+	currPlayer.putIn(currPlayer.chips);
+	prepareNextPlayerOptions();
+}
+
 function preparePlayersForNextTurn(){
 	for(i=0;i<allPlayers.length;i++){
 		allPlayers[i].endTurn();
@@ -269,8 +279,11 @@ function prepareNextPlayerOptions(){
 	document.getElementById("allin").disabled = false;
 	if(getMaxBet()>=currPlayer.chips+currPlayer.chipsIn){
 		document.getElementById("call").disabled = true;
+		document.getElementById("raise").disabled = true;
 	}else{
 		document.getElementById("call").disabled = false;
+		console.log("max bet: " + getMaxBet());
+		console.log("my max: " + (currPlayer.chips+currPlayer.chipsIn));
 		if(getMaxBet()==currPlayer.chips+currPlayer.chipsIn){
 			document.getElementById("raise").disabled = true;
 		}else{
@@ -297,6 +310,7 @@ function whoWon(){
 	document.getElementById("fold").disabled = true;
 	document.getElementById("call").disabled = true;
 	document.getElementById("raise").disabled = true;
+	document.getElementById("allin").disabled = true;
 	document.getElementById("addPlayer").disabled = true;
 }
 
@@ -355,37 +369,26 @@ function shouldEndTurn(){
 }
 
 function shouldEndGame(){
-	if(shouldEndTurn() && turn==2){
+	if(shouldEndTurn() && turn==3){
 		return true;
 	}
 	// if only one not folded
 	// OR
 	// only one or none not all in (all in except maybe one)
-	playersLeft = 0
-	for(i=0;i<allPlayers.length;i++){
-		if(!allPlayers[i].folded){
-			playersLeft++;
-		}	
-	}
-	if(playersLeft<2){
+	if(remPlayersIn()<2){
 		return true;
 	}
 	
-	
-	var notAllInCount=0
 	for(i=0;i<allPlayers.length;i++){
 		if(allPlayers[i].folded){
 			continue;
 		}	
 		if(allPlayers[i].chips!=0){
-			notAllInCount++;
+			return false;
 		}
 	}
-	if(notAllInCount>1){
-		return false;
-	}else{
-		return true;
-	}
+	
+	return true;
 }
 
 function getMaxBet(){
