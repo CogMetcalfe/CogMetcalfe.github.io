@@ -108,11 +108,11 @@ nav a:active{
 	background-color:var(--offwhite);
 }
 
-#project{
+.project{
 	
+	box-shadow: 3px 2px 8px #000000;
+	margin: 10px;
 }
-
-
 
 
 section{
@@ -131,7 +131,6 @@ h3{
 .buttonChoice{
 	
 }
-
 
 .panel{
 	width:50%;
