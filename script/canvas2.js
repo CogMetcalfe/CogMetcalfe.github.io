@@ -56,6 +56,7 @@ function draw(){
 	gridDraw();
 	//console.log(grid[0][0].x);
 	//console.log(colourGrad(grid[0][0].x));
+	window.requestAnimationFrame(draw);
 }
 
 colours = [{x:0,r:0,g:0,b:0},
@@ -199,13 +200,7 @@ function getGridConv(x,y){
 fill(150);
 background();
 setup();
-
-setInterval(drawF,16);
-
-function drawF(){
-	frameCount++;
-	draw();
-}
+draw();
 
 //drawing functions
 
