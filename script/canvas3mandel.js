@@ -73,17 +73,27 @@ function drawMandelbrot(px,py,zoom){
 		zoom=1;
 	}
 	console.log(px, py, zoom);
-	for(x=0;x<gridW;x++){
-		for(y=0;y<gridH;y++){
-			r = px+(4*(x/gridW-0.5)/zoom);
-			i = py+(4*(y/gridH-0.5)/zoom);
-			c = complex(r,i);
-			//fill(10*mandel(complex(r,i),50));
-			fillRaw(colourGrad(20*mandel(c,50)));
-			noStroke();
-			rect(sqSide*x,sqSide*y,sqSide,sqSide);
-		}
+	for(y=0;y<gridH;y++){
+		drawMandelbrotRow(px,py,zoom,y);
 	}
+}
+
+
+function drawMandelbrotRow(px,py,zoom,y){
+	for(x=0;x<gridW;x++){
+		drawMandelbrotSquare(px,py,zoom,x,y);
+	}
+}
+
+function drawMandelbrotSquare(px,py,zoom,x,y){
+		r = px+(4*(x/gridW-0.5)/zoom);
+		i = py+(4*(y/gridH-0.5)/zoom);
+		c = complex(r,i);
+		//fill(10*mandel(complex(r,i),50));
+		fillRaw(colourGrad(20*mandel(c,50)));
+		noStroke();
+
+		rect(sqSide*x,sqSide*y,sqSide,sqSide);
 }
 
 colours = [{x:0,r:0,g:0,b:0},
@@ -116,7 +126,11 @@ function colourGrad(x){
 }
 
 function setup(){
-	drawMandelbrot(-0.5,0,1.8);
+	fill(0);
+	background();
+	curRow=0;
+	curCol=0;
+	//drawMandelbrot(-0.5,0,1.8);
 	//drawMandelbrot();
 	//console.log("done");
 	//c= complex(10,2);
@@ -124,11 +138,70 @@ function setup(){
 	//console.log(mandel(c,10));
 }
 
+var curRow;
+var curCol;
+
+var maxSteps = 1000;
 function draw(){
+	//startMil = curmil();
+	/*while(curRow<gridH && curmil()-startMil<16){
+		drawMandelbrotSquare(-0.5,0,1.8,curCol, curRow);
+		curCol++;
+		if(curCol==gridW){
+			curCol=0;
+			curRow++;
+		}
+	}*/
+	/*
+	while(curmil()-startMil<8){
+		randomDraw();
+	}*/
+	/*
+	for(var n=0;n<5000;n++){
+		randomDraw();
+	}
+	*/
+	
+	if(frameCount < maxSteps){
+		progressDraw(-0.5,0,1.8,frameCount++,Math.round((gridW*gridH)/5000));
+		for(var n=0;n<1000;n++){
+			randomDraw();
+		}
+	}
+	//console.log(curmil()-startMil);
+	window.requestAnimationFrame(draw);
+}
+
+function progressDraw(px,py,zoom,step,stepCount){
+	if(step>=stepCount){return;}
+	x=step;
+	y=0;
+	
+	while(y<gridH){
+		while(x>=gridW){
+			x-=gridW;
+			y++;
+		}
+		drawMandelbrotSquare(px,py,zoom,x,y);
+		
+		
+		x+=stepCount;
+	}
 	
 }
 
 
+function randomDraw(){
+	x = random(0,gridW);
+	y = random(0,gridH);
+	drawMandelbrotSquare(-0.5,0,1.8,x,y);
+}
+
+function curmil(){
+	var d = new Date();
+	var n = d.getMilliseconds();
+	return n;
+}
 
 
 //leaving my area
@@ -136,17 +209,19 @@ function draw(){
 
 
 window.onload = (function(){
+	setTimeout(function(){
 	console.log("Loaded");
 	fill(150);
 	background();
 	setup();
-
-	setInterval(drawF,16);
+	draw();
+	//setInterval(drawF,50);
+	},100);
 });
 
 function drawF(){
 	frameCount++;
-	draw();
+	window.requestAnimationFrame(draw);
 }
 
 //drawing functions
