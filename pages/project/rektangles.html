@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>Ross Metcalfe's Website</title>
+	<link rel = "stylesheet"
+	   type = "text/css"
+	   href = "../../css/style.css" />
+	</head>
+	
+	<body>
+		<header>
+			<h2 id="header">Project 6: Rektangles</h1>
+			<div id="navDiv">
+				<nav>
+					<ul>
+						<li><a href="../contact.html">Contact</a></li>
+						<li><a href="../projects.html">Projects</a></li>
+						<li><a href="../../index.html">Home</a></li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<div id="mainDiv">
+			<section>
+				<div class="panelNoFloat">
+				<input id="rektangleText" type="text" value="REKT"><br>
+					<input id="rektangleSize" type="number" min="1" max="10" value=1 style="width:50px"> <button onclick="createRektangle()">Create Rektangle</button>
+				</div>
+				<div class="panelNoFloat">
+					<pre id="rektangle" style='font-family:"Courier new","Courier","monospace"'>
+R E K T
+E     K
+K     E
+T K E R
+					</pre>
+				</div>
+			</section>
+		</div>
+		<script src="../../script/rektangles.js"></script>
+	</body>
+</html>
