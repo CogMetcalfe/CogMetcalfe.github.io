@@ -6,7 +6,7 @@ paddingLeft = paddingLeft.substring(0,paddingLeft.length-2);
 paddingRight = paddingRight.substring(0,paddingRight.length-2);
 console.log("Padding Left: \"" +  window.getComputedStyle(canvas.parentNode).getPropertyValue("padding-left") + "\"");
 var width = canvas.width = canvas.parentNode.offsetWidth - paddingLeft - paddingRight;
-var height = canvas.height = Math.round(9*(width/16));
+var height = canvas.height = Math.round(9*(width/16))-111;
 
 var ctx = canvas.getContext('2d');
 var frameCount=0;
@@ -19,7 +19,7 @@ var sqSide=13;
 
 var grid = [];
 var gridW = 150;
-var gridH = 100;
+var gridH = 76;
 var smoothness = 35;
 
 function setup(){
