@@ -1,9 +1,13 @@
 function createRektangle(){
+	rektText = document.getElementById("rektangleText").value;
+	if(rektText.length<=1){
+		document.getElementById("rektangle").innerHTML = rektText;
+		return;
+	}
 	if(parseInt(document.getElementById("rektangleSize").value)>parseInt(document.getElementById("rektangleSize").max)){
 		return;
 	}
 	rektSize = document.getElementById("rektangleSize").value;
-	rektText = document.getElementById("rektangleText").value;
 	side = 1+(rektSize)*(rektText.length-1);
 	document.getElementById("rektangle").innerHTML = gridToHTML(gridRektangle());
 }
