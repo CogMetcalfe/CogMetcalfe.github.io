@@ -63,7 +63,7 @@ function gridToHTML(grid){
 
 
 
-
+createRektangle();
 
 
 
