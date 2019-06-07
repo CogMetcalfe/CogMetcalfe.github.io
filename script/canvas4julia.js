@@ -220,6 +220,18 @@ var curRow;
 var curCol;
 
 var maxSteps = 1000;
+var param;
+function paramChanged(){
+	r = parseFloat(document.getElementById("real").value);
+	i = parseFloat(document.getElementById("imaginary").value);
+	if(!r){r=0;}
+	if(!i){i=0;}
+	param = complex(r,i);
+	frameCount=0;
+	fill(0);
+	background();
+}
+paramChanged();
 function draw(){
 	//startMil = curmil();
 	/*while(curRow<gridH && curmil()-startMil<16){
@@ -240,34 +252,27 @@ function draw(){
 	}
 	*/
 	
-	//mandel
+	//julia
+	//param = complex(0.7*Math.sin(frameCount/100),0.7*Math.cos(frameCount/100));
 	if(frameCount < maxSteps){
-		progressDraw(-0.5,0,1.8,frameCount++,Math.round((gridW*gridH)/5000));
+		progressDraw(param, 0,0,1,frameCount++,Math.round((gridW*gridH)/5000));
 		for(var n=0;n<1000;n++){
-			randomDraw();
+			randomDraw(param,0,0,1);
 		}
 	}
-	//end mandel
 	
-	//julia
+	//drawJulia(complex(0.4+0.05*Math.sin(frameCount/100),0.5+0.05*Math.cos(frameCount/100)),0,0,1);
 	
-	/*
-	drawJulia(complex(0.4+0.05*Math.sin(frameCount/100),0.5+0.05*Math.cos(frameCount/100)),0,0,1);
 	
-	param = complex(0.7*Math.sin(frameCount/100),0.7*Math.cos(frameCount/100));
-	
-	drawJulia(param,0,0,1);
 	
 	console.log(param.toString());
 	
-	frameCount+=1;
-	*/
 	
 	//console.log(curmil()-startMil);
 	window.requestAnimationFrame(draw);
 }
 
-function progressDraw(px,py,zoom,step,stepCount){
+function progressDraw(param, px,py,zoom,step,stepCount){
 	if(step>=stepCount){return;}
 	x=step;
 	y=0;
@@ -277,7 +282,7 @@ function progressDraw(px,py,zoom,step,stepCount){
 			x-=gridW;
 			y++;
 		}
-		drawMandelbrotSquare(px,py,zoom,x,y);
+		drawJuliaSquare(param,px,py,zoom,x,y);
 		
 		
 		x+=stepCount;
@@ -286,10 +291,10 @@ function progressDraw(px,py,zoom,step,stepCount){
 }
 
 
-function randomDraw(){
+function randomDraw(param,px,py,zoom){
 	x = random(0,gridW);
 	y = random(0,gridH);
-	drawMandelbrotSquare(-0.5,0,1.8,x,y);
+		drawJuliaSquare(param,px,py,zoom,x,y);
 }
 
 function curmil(){
